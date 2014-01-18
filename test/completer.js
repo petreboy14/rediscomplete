@@ -40,7 +40,7 @@ describe('Completer', function () {
   });
   
   it('should be able to create an index of documents', function (done) {
-    var data = [{ id: 1, name: 'Peter Henning' }, { id: 2, name: 'Grant Koeneke'}, { id: 3, name: 'Peter Chapman' }, { id: 4, name: 'Andrew Burgess' }];
+    var data = [{ id: 1, name: 'Peter Henning' }, { id: 2, name: 'Grant Koeneke'}, { id: 3, name: 'Peter Chapman' }, { id: 4, name: 'Alejandro Fernández' }];
     completer.index({data: data}, function (err) {
       if (err) {
         throw err;
@@ -61,7 +61,7 @@ describe('Completer', function () {
                 JSON.parse(item['1']).name.should.equal('Peter Henning');
                 JSON.parse(item['2']).name.should.equal('Grant Koeneke');
                 JSON.parse(item['3']).name.should.equal('Peter Chapman');
-                JSON.parse(item['4']).name.should.equal('Andrew Burgess');
+                JSON.parse(item['4']).name.should.equal('Alejandro Fernández');
                 done();
               }
             });
@@ -84,6 +84,24 @@ describe('Completer', function () {
         items[0].should.have.keys('id', 'name');
         items[0].id.should.equal(2);
         items[0].name.should.equal('Grant Koeneke');
+        done();
+      }
+    });
+  });
+  
+  it('should be able to find a name with an accented character in search', function (done) {
+    var search = 'Ferná';
+    
+    completer.search({ search: search }, function (err, items) {
+      if (err) {
+        throw err;
+      } else {
+        should.exist(items);
+        items.should.be.an.instanceOf(Array);
+        items.length.should.equal(1);
+        items[0].should.have.keys('id', 'name');
+        items[0].id.should.equal(4);
+        items[0].name.should.equal('Alejandro Fernández');
         done();
       }
     });
