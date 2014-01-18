@@ -126,6 +126,50 @@ describe('Completer', function () {
     });
   });
   
+  it('should be able to autocomplete multiple words', function (done) {
+    var search = 'grant ko';
+    
+    completer.search({ search: search }, function (err, items) {
+      if (err) {
+        throw err;
+      } else {
+        should.exist(items);
+        items.should.be.an.instanceOf(Array);
+        items.length.should.equal(1);
+        items[0].should.have.keys('id', 'name');
+        items[0].id.should.equal(2);
+        items[0].name.should.equal('Grant Koeneke');
+        completer.search({ search: search }, function (err, items) {
+          if (err) {
+            throw err;
+          } else {
+            should.exist(items);
+            items.should.be.an.instanceOf(Array);
+            items.length.should.equal(1);
+            items[0].should.have.keys('id', 'name');
+            items[0].id.should.equal(2);
+            items[0].name.should.equal('Grant Koeneke');
+            done();
+          }
+        });
+      }
+    });
+  });
+  
+  it('shoudn\'t find results for multiple word searches with no corresponding index values', function (done) {
+    var search = 'grant koadsadasd';
+    completer.search({ search: search }, function (err, items) {
+      if (err) {
+        throw err;
+      } else {
+        should.exist(items);
+        items.should.be.an.instanceOf(Array);
+        items.length.should.equal(0);
+        done();
+      }
+    });
+  });
+  
   it('should be able to autocomplete a simple uppercased word search for two documents', function (done) {
     var search = 'pet';
     

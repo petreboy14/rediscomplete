@@ -272,6 +272,38 @@ describe('Connection Tests', function () {
     });
   });
   
+  it('should be able intersect two sorted sets', function (done) {
+    redisConn.zadd('test-set-1', 1, 'bob', 1, 'peter', function (err) {
+      if (err) {
+        throw err;
+      } else {
+        redisConn.zadd('test-set-2', 1, 'foo', 1, 'peter', function (err) {
+          if (err) {
+            throw err;
+          } else {
+            conn.zinterstore({intersectionKey: 'test-intersection-set', keys: ['test-set-1', 'test-set-2']}, function (err) {
+              if (err) {
+                throw err;
+              } else {
+                redisConn.zrange('test-intersection-set', 0, -1, function (err, items) {
+                  if (err) {
+                    throw err;
+                  } else {
+                    should.exist(items);
+                    items.should.be.an.instanceOf(Array);
+                    items.length.should.equal(1);
+                    items[0].should.equal('peter');
+                    done();
+                  }
+                });
+              }
+            });
+          }
+        });
+      }
+    });
+  });
+  
   it('should be able to get a range of items in a set by score with no limit/offset', function (done) {
     redisConn.zadd('test-sorted-set', 1, 'one');
     redisConn.zadd('test-sorted-set', 2, 'two');
