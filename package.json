@@ -12,7 +12,10 @@
   },
   "keywords": [
     "redis",
-    "autocomplete"
+    "autocomplete",
+    "typeahead",
+    "index",
+    "nosql"
   ],
   "author": "Peter Henning",
   "license": "BSD-2-Clause",
