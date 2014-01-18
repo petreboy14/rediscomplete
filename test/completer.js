@@ -145,5 +145,37 @@ describe('Completer', function () {
     });
   });
   
+  it('should return empty results for no autocomplete found', function (done) {
+    var search = 'foobar';
+    
+    completer.search({ search: search }, function (err, items) {
+      if (err) {
+        throw err;
+      } else {
+        should.exist(items);
+        items.should.be.an.instanceOf(Array);
+        items.length.should.equal(0);
+        done();
+      }
+    });
+  });
   
+  it('should be able to add data that doesn\'t have an id', function (done) {
+    var data = [{ name: 'bob'}, { name: 'carl'} ];
+    completer.index({data: data, ns: 'test' }, function (err) {
+      if (err) {
+        throw err;
+      } else {
+        done();
+      }
+    });
+  });
+  
+  it('should return an error when no data is given to index', function (done) {
+    completer.index({}, function (err) {
+      should.exist(err);
+      err.should.be.an.instanceOf(Error);
+      done();
+    });
+  });
 });

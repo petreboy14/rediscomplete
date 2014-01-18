@@ -180,6 +180,37 @@ describe('Connection Tests', function () {
     });
   });
   
+  it('should be able to get some fields from a hash', function (done) {
+    redisConn.hmset('foo-hash', ['bar', 'baz', 'tom', 'bob', 'bork', 'boom'], function (err) {
+      if (err) {
+        throw err;
+      } else {
+        conn.hmget({key: 'foo-hash', fields: ['bar', 'tom']}, function (err, obj) {
+          if (err) {
+            throw err;
+          } else {
+            should.exist(obj);
+            obj.should.be.an.instanceOf(Array);
+            obj.length.should.equal(2);
+            var bazFound = false;
+            var bobFound = false;
+            obj.forEach(function (item) {
+              if (item === 'baz') {
+                bazFound = true;
+              }
+              if (item === 'bob') {
+                bobFound = true;
+              }
+            });
+            bazFound.should.equal(true);
+            bobFound.should.equal(true);
+            done();
+          }
+        });
+      }
+    });
+  });
+  
   it('should be able to get all fields from a hash', function (done) {
     redisConn.hmset('foo-hash-all', 'bar', 'baz', 'tom', 'bob', function (err) {
       if (err) {
