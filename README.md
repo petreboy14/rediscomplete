@@ -14,7 +14,8 @@ A redis autocomplete engine inspired from the antirez and patshaughnessy blogs.
 * Removal of item cleans up index.
 * Customizable id/search fields and autogeneration of unique id if one doesn't exist.
 * Customizable namespacing so as to not interfere with your existing redis entries.
-* Automatic alphabetical sorting by search field. 
+* Automatic alphabetical sorting by search field.
+* 100% code coverage
 
 ## Installation
 
@@ -93,6 +94,57 @@ completor.index({ data: data }, function (err) {
   });
 });
 ```
+
+# API
+
+## new RedisComplete(options)
+
+Instantiate the RedisComplete class with the following options:
+* `host`: Hostname of redis instance. Defaults to `localhost`.
+* `port`: Port address of redis instance. Defaults to `6379`.
+* `app`: Application namespace for autocomplete index. Will be the first part of key for all index data. Defaults to `autocomplete`.
+* auth: Used to pass authentication data to the redis client. Defaults to `null`.
+
+## completor.index(options, cb)
+
+Builds a index out of an array of data for autocompletion. After finishing will call passed in callback function. Options include:
+* `data`: The data to be indexes. Must be an array of objects and is required. No default.
+* `complKey`: The field which will be used to construct the autocomplete index. If this key is not present in one of the objects then that object will be skipped upon index generation. Defaults to `name`.
+* `idField`: The field that will represent the unique id for each item in index. This field must be unique and if it is not present a guid will be constructed for that item. Defaults to `id`.
+* `ns`: Used for namespacing multiple indexes in one application. For example if two separate artist name and movie name indexes are desired `ns` could be set to `artist` for one index and `movie` for the other index. Defaults to `items`. 
+
+## completor.search(options, cb)
+
+Searches the index for a given term. Note that currently all searches are left to right. If the desired item is Bob Marley then searches for `bo`, `bob`, `bob m`, `mar` will produce the desired results. Searches for `ob` or `ar` will not. Options include:
+* `search`: The search to be ran. Must be a string of length greater than 0. 
+* `ns`: The namespace of index to search. Defaults to `items`. 
+* `limit`: How many results to return. Defaults to `20`.
+* `offset`: Used for paging results. Defaults to `0`.
+
+## completor.add(options, cb)
+
+Adds one or more items to the desired term. If an item with the same id is already present it will overwrite that item. Options include:
+
+* `data`: The item or items to add. Either an array or object can be present.
+* `complKey`: The field which will be used to construct the autocomplete index. If this key is not present in one of the objects then that object will be skipped upon index generation. Defaults to `name`.
+* `idField`: The field that will represent the unique id for each item in index. This field must be unique and if it is not present a guid will be constructed for that item. Defaults to `id`.
+* `ns`: Used for namespacing multiple indexes in one application. For example if two separate artist name and movie name indexes are desired `ns` could be set to `artist` for one index and `movie` for the other index. Defaults to `items`.
+
+## completor.update(options, cb)
+
+Updates a document in the autocomplete index. If the complKey has changed in the object the item will be reindexed. Otherwise its' cooresponding document will just be updated. If the item doesn't exist in the index it will be added. Options include:
+
+* `data`: The item to be updated. At present must be an object.
+* `complKey`: The field which will be used to construct the autocomplete index. If this key is not present in one of the objects then that object will be skipped upon index generation. Defaults to `name`.
+* `idField`: The field that will represent the unique id for each item in index. This field must be unique and if it is not present a guid will be constructed for that item. Defaults to `id`.
+* `ns`: Used for namespacing multiple indexes in one application. For example if two separate artist name and movie name indexes are desired `ns` could be set to `artist` for one index and `movie` for the other index. Defaults to `items`.
+ 
+## completor.remove(options, cb)
+
+Removes an item and its' references from the index. Options include:
+
+* `id`: The id of the object to be removed
+* `ns`: Used for namespacing multiple indexes in one application. For example if two separate artist name and movie name indexes are desired `ns` could be set to `artist` for one index and `movie` for the other index. Defaults to `items`.
 
 ## Resources
 
