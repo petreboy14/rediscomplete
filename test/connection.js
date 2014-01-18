@@ -8,7 +8,6 @@ var redis = require('redis');
 
 var describe = Lab.experiment;
 var it = Lab.test;
-var before = Lab.before;
 var after = Lab.after;
 
 var conn = null;
@@ -28,6 +27,7 @@ describe('Connection Tests', function () {
     redisConn.del('test-set-1');
     redisConn.del('test-set-2');
     redisConn.del('test-intersection-set');
+    redisConn.del('test-set');
     done();
   });
   
