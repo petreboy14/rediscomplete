@@ -49,3 +49,10 @@ completor.index({ data: data }, function (err) {
   }); 
 });
 ```
+
+## TODO
+* Verify removal of intersected sets for multi word searches
+* Multi update and delete
+* Patch updates instead of full replaces
+* Inner word searches (ie. 'om' matching 'Tom' or 'Atom'
+* Storage and speed measurements 
