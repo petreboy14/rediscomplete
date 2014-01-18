@@ -161,8 +161,19 @@ describe('Completer', function () {
   });
   
   it('should be able to add data that doesn\'t have an id', function (done) {
-    var data = [{ name: 'bob'}, { name: 'carl'} ];
+    var data = [{ name: 'bob'}, { name: 'carl'}, { name: ''} ];
     completer.index({data: data, ns: 'test' }, function (err) {
+      if (err) {
+        throw err;
+      } else {
+        done();
+      }
+    });
+  });
+  
+  it('should be able to add data and reset the current index', function (done) {
+    var data = [{ name: 'bob'}, { name: 'carl'} ];
+    completer.index({data: data, ns: 'test', reset: true }, function (err) {
       if (err) {
         throw err;
       } else {

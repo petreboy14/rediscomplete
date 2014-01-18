@@ -24,6 +24,7 @@ describe('Connection Tests', function () {
     redisConn.del('boom');
     redisConn.del('myset');
     redisConn.del('test-sorted-set');
+    redisConn.del('foo-set-single');
     done();
   });
   
@@ -222,6 +223,25 @@ describe('Connection Tests', function () {
           } else {
             should.exist(obj);
             obj.should.have.keys('bar', 'tom');
+            done();
+          }
+        });
+      }
+    });
+  });
+  
+  it('should be able to add an item to a set', function (done) {
+    conn.sadd({key: 'foo-set-single', value: 'bob'}, function (err) {
+      if (err) {
+        throw err;
+      } else {
+        redisConn.smembers('foo-set-single', function (err, items) {
+          if (err) {
+            throw err;
+          } else {
+            items.should.be.an.instanceOf(Array);
+            items.length.should.equal(1);
+            items[0].should.equal('bob');
             done();
           }
         });
