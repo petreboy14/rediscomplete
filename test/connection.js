@@ -21,6 +21,9 @@ describe('Connection Tests', function () {
     redisConn.del('foo-hash');
     redisConn.del('foo-hash-all');
     redisConn.del('foo-set');
+    redisConn.del('boom');
+    redisConn.del('myset');
+    redisConn.del('test-sorted-set');
     done();
   });
   
