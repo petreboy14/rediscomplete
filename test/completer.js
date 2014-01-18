@@ -233,4 +233,45 @@ describe('Completer', function () {
       done();
     });
   });
+  
+  it('should be able to add a single item to the autocomplete index', function (done) {
+    completer.add({ data: {id: 5, name: 'Tony Anderson' }}, function (err) {
+      if (err) {
+        throw err;
+      } else {
+        completer.search({ search: 'tony' }, function (err, results) {
+          if (err) {
+            throw err;
+          } else {
+            should.exist(results);
+            results.should.be.an.instanceOf(Array);
+            results.length.should.equal(1);
+            results[0].name.should.equal('Tony Anderson');
+            done();
+          }
+        });
+      }
+    });
+  });
+  
+  it('should be able to add multiple items to the autocomplete index', function (done) {
+    completer.add({ data: [{ id: 6, name: 'Bob Miller' }, { id: 7, name: 'Bob Sagat' }]}, function (err) {
+      if (err) {
+        throw err;
+      } else {
+        completer.search({ search: 'bob' }, function (err, results) {
+          if (err) {
+            throw err;
+          } else {
+            should.exist(results);
+            results.should.be.an.instanceOf(Array);
+            results.length.should.equal(2);
+            results[0].name.should.equal('Bob Miller');
+            results[1].name.should.equal('Bob Sagat');
+            done();
+          }
+        });
+      }
+    });
+  });
 });
