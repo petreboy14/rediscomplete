@@ -25,6 +25,9 @@ describe('Connection Tests', function () {
     redisConn.del('myset');
     redisConn.del('test-sorted-set');
     redisConn.del('foo-set-single');
+    redisConn.del('test-set-1');
+    redisConn.del('test-set-2');
+    redisConn.del('test-intersection-set');
     done();
   });
   
