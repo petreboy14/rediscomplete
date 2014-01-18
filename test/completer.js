@@ -8,7 +8,6 @@ var async = require('async');
 
 var describe = Lab.experiment;
 var it = Lab.test;
-var before = Lab.before;
 var after = Lab.after;
 
 var completer = null;
@@ -268,6 +267,93 @@ describe('Completer', function () {
             results.length.should.equal(2);
             results[0].name.should.equal('Bob Miller');
             results[1].name.should.equal('Bob Sagat');
+            done();
+          }
+        });
+      }
+    });
+  });
+  
+  it('should be able to remove an item from the index', function (done) {
+    completer.remove({ id: 2 }, function (err) {
+      if (err) {
+        throw err;
+      } else {
+        completer.search({ search: 'gran' }, function (err, results) {
+          if (err) {
+            throw err;
+          } else {
+            should.exist(results);
+            results.length.should.equal(0);
+            done();
+          }
+        });
+      }
+    });
+  });
+  
+  it('should be able to update an item in the index', function (done) {
+    completer.update({data: { id: 1, name: 'Bob Hope' }}, function (err) {
+      if (err) {
+        throw err;
+      } else {
+        completer.search({ search: 'hennin' }, function (err, results) {
+          if (err) {
+            throw err;
+          } else {
+            should.exist(results);
+            results.length.should.equal(0);
+            completer.search({ search: 'hope' }, function (err, results) {
+              if (err) {
+                throw err;
+              } else {
+                should.exist(results);
+                results.should.be.an.instanceOf(Array);
+                results.length.should.equal(1);
+                results[0].name.should.equal('Bob Hope');
+                done();
+              }
+            });
+          }
+        });
+      }
+    });
+  });
+  
+  it('should create a new item on update to non-existing entry', function (done) {
+    completer.update({data: { id: 25, name: 'Lucy Ball'}}, function (err) {
+      if (err) {
+        throw err;
+      } else {
+        completer.search({ search: 'lucy' }, function (err, results) {
+          if (err) {
+            throw err;
+          } else {
+            should.exist(results);
+            results.should.be.an.instanceOf(Array);
+            results.length.should.equal(1);
+            results[0].name.should.equal('Lucy Ball');
+            done();
+          }
+        });
+      }
+    });
+  });
+  
+  it('should do a simple update for an item that doesn\'t change the complField', function (done) {
+    completer.update({data: { id: 1, name: 'Bob Hope', foo: 'bar' }}, function (err) {
+      if (err) {
+        throw err;
+      } else {
+        completer.search({ search: 'hope' }, function (err, results) {
+          if (err) {
+            throw err;
+          } else {
+            should.exist(results);
+            results.should.be.an.instanceOf(Array);
+            results.length.should.equal(1);
+            results[0].name.should.equal('Bob Hope');
+            results[0].foo.should.equal('bar');
             done();
           }
         });

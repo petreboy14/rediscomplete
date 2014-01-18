@@ -442,6 +442,31 @@ describe('Connection Tests', function () {
     conn.conn.emit('error', 'boom');
   });
   
+  it('should be able to get all members of a set', function (done) {
+    redisConn.sadd('test-set', 'foo1', function (err) {
+      if (err) {
+        throw err;
+      } else {
+        redisConn.sadd('test-set', 'foo2', function (err) {
+          if (err) {
+            throw err;
+          } else {
+            conn.smembers({ key: 'test-set' }, function (err, items) {
+              if (err) {
+                throw err;
+              } else {
+                should.exist(items);
+                items.should.be.an.instanceOf(Array);
+                items.length.should.equal(2);
+                done();
+              }
+            });
+          }
+        });
+      }
+    });
+  });
+  
   it('should be able to disconnect', function (done) {
     conn.disconnect();
     setTimeout(function () {
