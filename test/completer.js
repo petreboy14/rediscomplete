@@ -404,4 +404,30 @@ describe('Completer', function () {
       }
     });
   });
+  
+  it('should be able to remove multiple items', function (done) {
+    completer.remove({ id: [1, 3] }, function (err) {
+      if (err) {
+        throw err;
+      } else {
+        completer.search({ search: 'jone' }, function (err, results) {
+          if (err) {
+            throw err;
+          } else {
+            should.exist(results);
+            results.length.should.equal(0);
+            completer.search({ search: 'park' }, function (err, results) {
+              if (err) {
+                throw err;
+              } else {
+                should.exist(results);
+                results.length.should.equal(0);
+                done();
+              }
+            });
+          }
+        });
+      }
+    });
+  });
 });
