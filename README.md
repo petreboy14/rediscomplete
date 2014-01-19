@@ -155,6 +155,5 @@ Removes an item and its' references from the index. Options include:
 * [Two ways of using Redisto build a NoSQL search index](http://patshaughnessy.net/2011/11/29/two-ways-of-using-redis-to-build-a-nosql-autocomplete-search-index) - Pat Shaughnessy
 
 ## TODO
-* Verify removal of intersected sets for multi word searches
 * Inner word searches (ie. 'om' matching 'Tom' or 'Atom'
 * Storage and speed measurements
