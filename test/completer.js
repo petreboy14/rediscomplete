@@ -430,4 +430,30 @@ describe('Completer', function () {
       }
     });
   });
+  
+  it('should be able to make an update which doesn\'t lose pre-existing fields', function (done) {
+    completer.add({data: { id: 1, name: 'Bob Hope', foo: 'bar' }}, function (err) {
+      if (err) {
+        throw err;
+      } else {
+        completer.update({data: {id: 1, name: 'Bob Hope', baz: 'blah'}}, function (err) {
+          if (err) {
+            throw err;
+          } else {
+            completer.search({search: 'hope'}, function (err, results) {
+              if (err) {
+                throw err;
+              } else {
+                should.exist(results);
+                results.should.be.an.instanceOf(Array);
+                results.length.should.equal(1);
+                results[0].should.have.keys('id', 'name', 'foo', 'baz');
+                done();
+              }
+            });
+          }
+        });
+      }
+    });
+  });
 });
