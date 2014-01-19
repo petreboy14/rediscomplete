@@ -1,6 +1,6 @@
 {
   "name": "rediscomplete",
-  "version": "0.9.0",
+  "version": "1.0.0",
   "description": "A redis autocomplete engine inspired from the antirez and patshaughnessy blogs.",
   "main": "index.js",
   "scripts": {
