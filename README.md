@@ -63,6 +63,12 @@ completer.index({ data: data }, function (err) {
     // [{ id: 2, name: 'Van Halen' }]
   });
   
+  // Inner word search
+  completer.search({ search: 'ew' }, function (err, results) {
+    // Returns:
+    // [{ id: 6, name: 'New Found Glory' }]
+  });
+  
   // Special character in search
   completer.search({ search: 'Ferná' }, function (err, results) {
     // Returns: 
@@ -116,7 +122,7 @@ Builds a index out of an array of data for autocompletion. After finishing will 
 
 ## completer.search(options, cb)
 
-Searches the index for a given term. Note that currently all searches are left to right. If the desired item is Bob Marley then searches for `bo`, `bob`, `bob m`, `mar` will produce the desired results. Searches for `ob` or `ar` will not. Options include:
+Searches the index for a given term. All searches are left to right based and inner word searches are supported. If the desired item is Bob Marley then searches for `bo`, `bob`, `bob m`, `mar`, `ob`, `arl` will produce the desired results. Searches for `bb` or `mr` will not. Options include:
 * `search`: The search to be ran. Must be a string of length greater than 0. 
 * `ns`: The namespace of index to search. Defaults to `items`. 
 * `limit`: How many results to return. Defaults to `20`.
@@ -155,5 +161,4 @@ Removes an item and its' references from the index. Options include:
 * [Two ways of using Redisto build a NoSQL search index](http://patshaughnessy.net/2011/11/29/two-ways-of-using-redis-to-build-a-nosql-autocomplete-search-index) - Pat Shaughnessy
 
 ## TODO
-* Inner word searches (ie. 'om' matching 'Tom' or 'Atom')
 * Storage and speed measurements
