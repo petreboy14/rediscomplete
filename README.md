@@ -1,7 +1,7 @@
 rediscomplete
 =============
 
-A redis autocomplete engine inspired from the antirez and patshaughnessy blogs.
+A fully CRUD redis autocomplete engine inspired from the antirez and patshaughnessy blogs.
 
 [![Build Status](https://travis-ci.org/petreboy14/rediscomplete.png?branch=master)](https://travis-ci.org/petreboy14/rediscomplete)
 
@@ -155,5 +155,5 @@ Removes an item and its' references from the index. Options include:
 * [Two ways of using Redisto build a NoSQL search index](http://patshaughnessy.net/2011/11/29/two-ways-of-using-redis-to-build-a-nosql-autocomplete-search-index) - Pat Shaughnessy
 
 ## TODO
-* Inner word searches (ie. 'om' matching 'Tom' or 'Atom'
+* Inner word searches (ie. 'om' matching 'Tom' or 'Atom')
 * Storage and speed measurements
