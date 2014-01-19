@@ -467,6 +467,27 @@ describe('Connection Tests', function () {
     });
   });
   
+  it('should be able to remove an element of a sorted set', function (done) {
+    conn.zrem({key: 'test-sorted-set', value: 'one'}, function (err) {
+      if (err) {
+        throw err;
+      } else {
+        redisConn.zrange('test-sorted-set', 0, -1, function (err, items) {
+          if (err) {
+            throw err;
+          } else {
+            should.exist(items);
+            items.should.be.an.instanceOf(Array);
+            items.length.should.equal(2);
+            items[0].should.not.equal('one');
+            items[1].should.not.equal('one');
+            done();
+          }
+        });
+      }
+    });
+  });
+  
   it('should be able to disconnect', function (done) {
     conn.disconnect();
     setTimeout(function () {
