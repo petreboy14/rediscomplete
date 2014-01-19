@@ -478,4 +478,24 @@ describe('Completer', function () {
       }
     });
   });
+  
+  it('should be able to ignore special characters in creation and searching', function (done) {
+    completer.add({data: {id: 4, name: '$$Ne-Yo$$', priority: -1}, sortKey: 'priority'}, function (err) {
+      if (err) {
+        throw err;
+      } else {
+        completer.search({ search: 'ne' }, function (err, results) {
+          if (err) {
+            throw err;
+          } else {
+            should.exist(results);
+            results.should.be.an.instanceOf(Array);
+            results.length.should.equal(1);
+            results[0].name.should.equal('$$Ne-Yo$$');
+            done();
+          }
+        });
+      }
+    });
+  });
 });
