@@ -12,9 +12,9 @@ A redis autocomplete engine inspired from the antirez and patshaughnessy blogs.
 * Updates to data will be reflected in index searches.
 * Autocomplete single or multi-words in left to right strategy very quickly.
 * Removal of item cleans up index.
-* Customizable id/search fields and autogeneration of unique id if one doesn't exist.
+* Customizable id/search/sort fields and auto-generation of unique id if one doesn't exist.
 * Customizable namespacing so as to not interfere with your existing redis entries.
-* Automatic alphabetical sorting by search field.
+* Automatic alphabetical or custom sorting by sort field.
 * 100% code coverage
 
 ## Installation
@@ -111,6 +111,7 @@ Builds a index out of an array of data for autocompletion. After finishing will 
 * `data`: The data to be indexes. Must be an array of objects and is required. No default.
 * `complKey`: The field which will be used to construct the autocomplete index. If this key is not present in one of the objects then that object will be skipped upon index generation. Defaults to `name`.
 * `idField`: The field that will represent the unique id for each item in index. This field must be unique and if it is not present a guid will be constructed for that item. Defaults to `id`.
+* `sortField`: This field will choose which field in object will be used to pre-sort results. Default is `name`.
 * `ns`: Used for namespacing multiple indexes in one application. For example if two separate artist name and movie name indexes are desired `ns` could be set to `artist` for one index and `movie` for the other index. Defaults to `items`. 
 
 ## completer.search(options, cb)
@@ -128,22 +129,24 @@ Adds one or more items to the desired term. If an item with the same id is alrea
 * `data`: The item or items to add. Either an array or object can be present.
 * `complKey`: The field which will be used to construct the autocomplete index. If this key is not present in one of the objects then that object will be skipped upon index generation. Defaults to `name`.
 * `idField`: The field that will represent the unique id for each item in index. This field must be unique and if it is not present a guid will be constructed for that item. Defaults to `id`.
+* `sortField`: This field will choose which field in object will be used to pre-sort results. Default is `name`.
 * `ns`: Used for namespacing multiple indexes in one application. For example if two separate artist name and movie name indexes are desired `ns` could be set to `artist` for one index and `movie` for the other index. Defaults to `items`.
 
 ## completer.update(options, cb)
 
 Updates a document in the autocomplete index. If the complKey has changed in the object the item will be reindexed. Otherwise its' cooresponding document will just be updated. If the item doesn't exist in the index it will be added. Options include:
 
-* `data`: The item to be updated. At present must be an object.
+* `data`: The item to be updated. Can either be a single object or array of objects. 
 * `complKey`: The field which will be used to construct the autocomplete index. If this key is not present in one of the objects then that object will be skipped upon index generation. Defaults to `name`.
 * `idField`: The field that will represent the unique id for each item in index. This field must be unique and if it is not present a guid will be constructed for that item. Defaults to `id`.
+* `sortField`: This field will choose which field in object will be used to pre-sort results. Default is `name`.
 * `ns`: Used for namespacing multiple indexes in one application. For example if two separate artist name and movie name indexes are desired `ns` could be set to `artist` for one index and `movie` for the other index. Defaults to `items`.
  
 ## completer.remove(options, cb)
 
 Removes an item and its' references from the index. Options include:
 
-* `id`: The id of the object to be removed
+* `id`: The id of the object to be removed. Can also be an array of ids for multiple deletions. 
 * `ns`: Used for namespacing multiple indexes in one application. For example if two separate artist name and movie name indexes are desired `ns` could be set to `artist` for one index and `movie` for the other index. Defaults to `items`.
 
 ## Resources
@@ -153,7 +156,5 @@ Removes an item and its' references from the index. Options include:
 
 ## TODO
 * Verify removal of intersected sets for multi word searches
-* Multi update and delete
-* Patch updates instead of full replaces
 * Inner word searches (ie. 'om' matching 'Tom' or 'Atom'
-* Storage and speed measurements 
+* Storage and speed measurements
