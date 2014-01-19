@@ -456,4 +456,26 @@ describe('Completer', function () {
       }
     });
   });
+  
+  it('should be able to sort by different key', function (done) {
+    completer.index({ reset: true, data: [{id: 1, name: 'bob smith', priority: 1}, { id: 2, name: 'bob jane', priority: 2}, { id: 3, name: 'bob dillan', priority: 3}], sortKey: 'priority'}, function (err) {
+      if (err) {
+        throw err;
+      } else {
+        completer.search({ search: 'bob' }, function (err, results) {
+          if (err) {
+            throw err;
+          } else {
+            should.exist(results);
+            results.should.be.an.instanceOf(Array);
+            results.length.should.equal(3);
+            results[0].name.should.equal('bob smith');
+            results[1].name.should.equal('bob jane');
+            results[2].name.should.equal('bob dillan');
+            done();
+          }
+        });
+      }
+    });
+  });
 });
