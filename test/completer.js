@@ -343,7 +343,7 @@ describe('Completer', function () {
       if (err) {
         throw err;
       } else {
-        completer.search({ search: 'lucy' }, function (err, results) {
+        completer.search({ search: 'Lucy B' }, function (err, results) {
           if (err) {
             throw err;
           } else {
@@ -493,6 +493,35 @@ describe('Completer', function () {
             results.length.should.equal(1);
             results[0].name.should.equal('$$Ne-Yo$$');
             done();
+          }
+        });
+      }
+    });
+  });
+  
+  it('should remove all completion intersections when deleting entry', function (done) {
+    completer.search({search: 'bob sm'}, function (err, results) {
+      if (err) {
+        throw err;
+      } else {
+        should.exist(results);
+        results.should.be.an.instanceOf(Array);
+        results.length.should.equal(1);
+        results[0].name.should.equal('bob smith');
+        completer.remove({id: 1}, function (err) {
+          if (err) {
+            throw err;
+          } else {
+            redisConn.keys('autocomplete:items:compl:bob|sm*', function (err, results) {
+              if (err) {
+                throw err;
+              } else {
+                should.exist(results);
+                results.should.be.an.instanceOf(Array);
+                results.length.should.equal(0);
+                done();
+              }
+            });
           }
         });
       }
