@@ -484,7 +484,7 @@ describe('Completer', function () {
       if (err) {
         throw err;
       } else {
-        completer.search({ search: 'ne' }, function (err, results) {
+        completer.search({ search: 'yo' }, function (err, results) {
           if (err) {
             throw err;
           } else {
@@ -524,6 +524,21 @@ describe('Completer', function () {
             });
           }
         });
+      }
+    });
+  });
+  
+  it('should be able to get results for inner word searches', function (done) {
+    completer.search({search: 'ob'}, function (err, results) {
+      if (err) {
+        throw err;
+      } else {
+        should.exist(results);
+        results.should.be.an.instanceOf(Array);
+        results.length.should.equal(2);
+        results[0].name.should.equal('bob jane');
+        results[1].name.should.equal('bob dillan');
+        done();
       }
     });
   });
