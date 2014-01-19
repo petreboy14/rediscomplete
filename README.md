@@ -29,7 +29,7 @@ npm install rediscomplete --save
 Instantiate the RedisComplete library
 ```
 var RedisComplete = require('rediscomplete');
-var completor = new RedisComplete({ app: 'music' });
+var completer = new RedisComplete({ app: 'music' });
 
 // Data to be indexed
 var data = [
@@ -43,51 +43,51 @@ var data = [
 ];
 
 // Index data
-completor.index({ data: data }, function (err) {
+completer.index({ data: data }, function (err) {
 
   // Search for multi-results
-  completor.search({ search: 'ne' } function (err, results) { 
+  completer.search({ search: 'ne' } function (err, results) { 
     // Returns: 
     // [{ id: 6, name: 'New Found Glory' }, { id: 5, name: 'Ne-Yo }]
   }); 
   
   // Search second word
-  completor.search({ search: 'hale' } function (err, results) { 
+  completer.search({ search: 'hale' } function (err, results) { 
     // Returns: 
     // [{ id: 2, name: 'Van Halen' }]
   });
   
   // Multi-word search
-  completor.search({ search: 'van ha' } function (err, results) { 
+  completer.search({ search: 'van ha' } function (err, results) { 
     // Returns: 
     // [{ id: 2, name: 'Van Halen' }]
   });
   
   // Special character in search
-  completor.search({ search: 'Ferná' }, function (err, results) {
+  completer.search({ search: 'Ferná' }, function (err, results) {
     // Returns: 
     // [{ id: 2, name: 'Alejandro Fernández' }]
   });
   
   // Add a new item to the index
-  completor.add({ data: { id: 8, name: 'Bob Marley' }, function (err) {
-    completor.search({ search: 'bob' }, function (err, results) {
+  completer.add({ data: { id: 8, name: 'Bob Marley' }, function (err) {
+    completer.search({ search: 'bob' }, function (err, results) {
       // Returns: 
       // [{ id: 8, name: 'Bob Marley' }]
     });
   });
   
   // Update an item in index
-  completor.update({ data: { id: 2, name: 'Van-Halen', genre: 'Rock' }, function (err) {
-    completor.search({ search: 'van' }, function (err, results) {
+  completer.update({ data: { id: 2, name: 'Van-Halen', genre: 'Rock' }, function (err) {
+    completer.search({ search: 'van' }, function (err, results) {
       // Returns: 
       // [{ id: 2, name: 'Van-Halen', genre: 'Rock' }]
     });
   });
   
   // Remove an item from index
-  completor.remove({ id: 2 }, function (err) {
-    completor.search({ search: 'van' }, function (err, results) {
+  completer.remove({ id: 2 }, function (err) {
+    completer.search({ search: 'van' }, function (err, results) {
       // Returns: 
       // []
     });
@@ -105,7 +105,7 @@ Instantiate the RedisComplete class with the following options:
 * `app`: Application namespace for autocomplete index. Will be the first part of key for all index data. Defaults to `autocomplete`.
 * auth: Used to pass authentication data to the redis client. Defaults to `null`.
 
-## completor.index(options, cb)
+## completer.index(options, cb)
 
 Builds a index out of an array of data for autocompletion. After finishing will call passed in callback function. Options include:
 * `data`: The data to be indexes. Must be an array of objects and is required. No default.
@@ -113,7 +113,7 @@ Builds a index out of an array of data for autocompletion. After finishing will 
 * `idField`: The field that will represent the unique id for each item in index. This field must be unique and if it is not present a guid will be constructed for that item. Defaults to `id`.
 * `ns`: Used for namespacing multiple indexes in one application. For example if two separate artist name and movie name indexes are desired `ns` could be set to `artist` for one index and `movie` for the other index. Defaults to `items`. 
 
-## completor.search(options, cb)
+## completer.search(options, cb)
 
 Searches the index for a given term. Note that currently all searches are left to right. If the desired item is Bob Marley then searches for `bo`, `bob`, `bob m`, `mar` will produce the desired results. Searches for `ob` or `ar` will not. Options include:
 * `search`: The search to be ran. Must be a string of length greater than 0. 
@@ -121,7 +121,7 @@ Searches the index for a given term. Note that currently all searches are left t
 * `limit`: How many results to return. Defaults to `20`.
 * `offset`: Used for paging results. Defaults to `0`.
 
-## completor.add(options, cb)
+## completer.add(options, cb)
 
 Adds one or more items to the desired term. If an item with the same id is already present it will overwrite that item. Options include:
 
@@ -130,7 +130,7 @@ Adds one or more items to the desired term. If an item with the same id is alrea
 * `idField`: The field that will represent the unique id for each item in index. This field must be unique and if it is not present a guid will be constructed for that item. Defaults to `id`.
 * `ns`: Used for namespacing multiple indexes in one application. For example if two separate artist name and movie name indexes are desired `ns` could be set to `artist` for one index and `movie` for the other index. Defaults to `items`.
 
-## completor.update(options, cb)
+## completer.update(options, cb)
 
 Updates a document in the autocomplete index. If the complKey has changed in the object the item will be reindexed. Otherwise its' cooresponding document will just be updated. If the item doesn't exist in the index it will be added. Options include:
 
@@ -139,7 +139,7 @@ Updates a document in the autocomplete index. If the complKey has changed in the
 * `idField`: The field that will represent the unique id for each item in index. This field must be unique and if it is not present a guid will be constructed for that item. Defaults to `id`.
 * `ns`: Used for namespacing multiple indexes in one application. For example if two separate artist name and movie name indexes are desired `ns` could be set to `artist` for one index and `movie` for the other index. Defaults to `items`.
  
-## completor.remove(options, cb)
+## completer.remove(options, cb)
 
 Removes an item and its' references from the index. Options include:
 

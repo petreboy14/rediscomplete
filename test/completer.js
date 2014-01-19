@@ -40,7 +40,7 @@ describe('Completer', function () {
   });
   
   it('should be able to create an index of documents', function (done) {
-    var data = [{ id: 1, name: 'Peter Henning' }, { id: 2, name: 'Grant Koeneke'}, { id: 3, name: 'Peter Chapman' }, { id: 4, name: 'Alejandro Fernández' }];
+    var data = [{ id: 1, name: 'Peter Allen' }, { id: 2, name: 'Grant Tom'}, { id: 3, name: 'Peter Chapster' }, { id: 4, name: 'Alejandro Fernández' }];
     completer.index({data: data}, function (err) {
       if (err) {
         throw err;
@@ -58,9 +58,9 @@ describe('Completer', function () {
               } else {
                 should.exist(item);
                 item.should.have.keys('1', '2', '3', '4');
-                JSON.parse(item['1']).name.should.equal('Peter Henning');
-                JSON.parse(item['2']).name.should.equal('Grant Koeneke');
-                JSON.parse(item['3']).name.should.equal('Peter Chapman');
+                JSON.parse(item['1']).name.should.equal('Peter Allen');
+                JSON.parse(item['2']).name.should.equal('Grant Tom');
+                JSON.parse(item['3']).name.should.equal('Peter Chapster');
                 JSON.parse(item['4']).name.should.equal('Alejandro Fernández');
                 done();
               }
@@ -83,7 +83,7 @@ describe('Completer', function () {
         items.length.should.equal(1);
         items[0].should.have.keys('id', 'name');
         items[0].id.should.equal(2);
-        items[0].name.should.equal('Grant Koeneke');
+        items[0].name.should.equal('Grant Tom');
         done();
       }
     });
@@ -119,14 +119,14 @@ describe('Completer', function () {
         items.length.should.equal(1);
         items[0].should.have.keys('id', 'name');
         items[0].id.should.equal(2);
-        items[0].name.should.equal('Grant Koeneke');
+        items[0].name.should.equal('Grant Tom');
         done();
       }
     });
   });
   
   it('should be able to autocomplete a simple uppercased word from the second word for one document', function (done) {
-    var search = 'koe';
+    var search = 'to';
     
     completer.search({ search: search }, function (err, items) {
       if (err) {
@@ -137,14 +137,14 @@ describe('Completer', function () {
         items.length.should.equal(1);
         items[0].should.have.keys('id', 'name');
         items[0].id.should.equal(2);
-        items[0].name.should.equal('Grant Koeneke');
+        items[0].name.should.equal('Grant Tom');
         done();
       }
     });
   });
   
   it('should be able to autocomplete multiple words', function (done) {
-    var search = 'grant ko';
+    var search = 'grant to';
     
     completer.search({ search: search }, function (err, items) {
       if (err) {
@@ -155,7 +155,7 @@ describe('Completer', function () {
         items.length.should.equal(1);
         items[0].should.have.keys('id', 'name');
         items[0].id.should.equal(2);
-        items[0].name.should.equal('Grant Koeneke');
+        items[0].name.should.equal('Grant Tom');
         completer.search({ search: search }, function (err, items) {
           if (err) {
             throw err;
@@ -165,7 +165,7 @@ describe('Completer', function () {
             items.length.should.equal(1);
             items[0].should.have.keys('id', 'name');
             items[0].id.should.equal(2);
-            items[0].name.should.equal('Grant Koeneke');
+            items[0].name.should.equal('Grant Tom');
             done();
           }
         });
@@ -373,6 +373,32 @@ describe('Completer', function () {
             results[0].name.should.equal('Bob Hope');
             results[0].foo.should.equal('bar');
             done();
+          }
+        });
+      }
+    });
+  });
+  
+  it('should be able to do multiple updates', function (done) {
+    completer.update({ data: [ { id: 1, name: 'Bob Jones', foo: 'bar' }, { id: 3, name: 'Peter Parker' }]}, function (err) {
+      if (err) {
+        throw err;
+      } else {
+        completer.search({ search: 'jone'}, function (err, results) {
+          if (err) {
+            throw err;
+          } else {
+            should.exist(results);
+            results.should.be.an.instanceOf(Array);
+            results.length.should.equal(1);
+            results[0].name.should.equal('Bob Jones');
+            completer.search({ search: 'park'}, function (err, results) {
+              should.exist(results);
+              results.should.be.an.instanceOf(Array);
+              results.length.should.equal(1);
+              results[0].name.should.equal('Peter Parker');
+              done();
+            });
           }
         });
       }
