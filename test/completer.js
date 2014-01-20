@@ -542,4 +542,27 @@ describe('Completer', function () {
       }
     });
   });
+  
+  it('should support indexing an array of strings', function (done) {
+    var data = ['tom', 'tommy', 'ted', 'bob', 'joe', 'jane', 'oscar'];
+    
+    completer.index({data: data, reset: true}, function (err) {
+      if (err) {
+        throw err; 
+      } else {
+        completer.search({search: 'to'}, function (err, results) {
+          if (err) {
+            throw err;
+          } else {
+            should.exist(results);
+            results.should.be.an.instanceOf(Array);
+            results.length.should.equal(2);
+            results[0].name.should.equal('tom');
+            results[1].name.should.equal('tommy');
+            done();
+          }
+        });
+      }
+    });
+  });
 });
