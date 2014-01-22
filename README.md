@@ -37,28 +37,28 @@ var data = [
   { id: 2, name: 'Van Halen' },
   { id: 3, name: 'Tupac' },
   { id: 4, name: 'Eminem' },
-  { id: 5, name 'Ne-Yo' },
+  { id: 5, name: 'Ne-Yo' },
   { id: 6, name: 'New Found Glory' },
-  { id: 7, name: 'Alejandro Fernández }
+  { id: 7, name: 'Alejandro Fernández' }
 ];
 
 // Index data
 completer.index({ data: data }, function (err) {
 
   // Search for multi-results
-  completer.search({ search: 'ne' } function (err, results) { 
+  completer.search({ search: 'ne' }, function (err, results) { 
     // Returns: 
     // [{ id: 6, name: 'New Found Glory' }, { id: 5, name: 'Ne-Yo }]
   }); 
   
   // Search second word
-  completer.search({ search: 'hale' } function (err, results) { 
+  completer.search({ search: 'hale' }, function (err, results) { 
     // Returns: 
     // [{ id: 2, name: 'Van Halen' }]
   });
   
   // Multi-word search
-  completer.search({ search: 'van ha' } function (err, results) { 
+  completer.search({ search: 'van ha' }, function (err, results) { 
     // Returns: 
     // [{ id: 2, name: 'Van Halen' }]
   });
@@ -76,7 +76,7 @@ completer.index({ data: data }, function (err) {
   });
   
   // Add a new item to the index
-  completer.add({ data: { id: 8, name: 'Bob Marley' }, function (err) {
+  completer.add({ data: { id: 8, name: 'Bob Marley' } }, function (err) {
     completer.search({ search: 'bob' }, function (err, results) {
       // Returns: 
       // [{ id: 8, name: 'Bob Marley' }]
@@ -84,7 +84,7 @@ completer.index({ data: data }, function (err) {
   });
   
   // Update an item in index
-  completer.update({ data: { id: 2, name: 'Van-Halen', genre: 'Rock' }, function (err) {
+  completer.update({ data: { id: 2, name: 'Van-Halen', genre: 'Rock' } }, function (err) {
     completer.search({ search: 'van' }, function (err, results) {
       // Returns: 
       // [{ id: 2, name: 'Van-Halen', genre: 'Rock' }]
