@@ -5,6 +5,8 @@ A fully CRUD redis autocomplete engine inspired from the antirez and patshaughne
 
 [![Build Status](https://travis-ci.org/petreboy14/rediscomplete.png?branch=master)](https://travis-ci.org/petreboy14/rediscomplete)
 
+[![NPM](https://nodei.co/npm/rediscomplete.png?downloads=true)](https://nodei.co/npm/rediscomplete/)
+
 ## Features
 
 * Bootstrap an index of existing data if desired or buld index as you go.
