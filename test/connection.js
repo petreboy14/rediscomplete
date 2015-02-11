@@ -1,14 +1,14 @@
 'use strict';
 
 var Lab = require('lab');
+var lab = exports.lab = Lab.script();
 var should = require('should');
 var Connection = require('../lib/connection');
 var redis = require('redis');
 
-
-var describe = Lab.experiment;
-var it = Lab.test;
-var after = Lab.after;
+var describe = lab.experiment;
+var it = lab.test;
+var after = lab.after;
 
 var conn = null;
 var redisConn = redis.createClient();

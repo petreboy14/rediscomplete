@@ -1,14 +1,15 @@
 'use strict';
 
 var Lab = require('lab');
+var lab = exports.lab = Lab.script();
 var should = require('should');
 var Completer = require('../lib/index');
 var redis = require('redis');
 var async = require('async');
 
-var describe = Lab.experiment;
-var it = Lab.test;
-var after = Lab.after;
+var describe = lab.experiment;
+var it = lab.test;
+var after = lab.after;
 
 var completer = null;
 var redisConn = redis.createClient();

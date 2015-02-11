@@ -2,9 +2,10 @@
 var accentFold = require('../lib/accentFold').accentFold;
 
 var Lab = require('lab');
+var lab = exports.lab = Lab.script();
 var should = require('should');
-var describe = Lab.experiment;
-var it = Lab.test;
+var describe = lab.experiment;
+var it = lab.test;
 
 describe('accentFold Tests', function () {
   it('should exist', function (done) {
