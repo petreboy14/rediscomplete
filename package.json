@@ -1,6 +1,6 @@
 {
   "name": "rediscomplete",
-  "version": "1.7.1",
+  "version": "1.7.2",
   "description": "A fully CRUD redis autocomplete engine inspired from the antirez and patshaughnessy blogs.",
   "main": "index.js",
   "scripts": {
@@ -25,9 +25,9 @@
   "homepage": "https://github.com/petreboy14/rediscomplete",
   "dependencies": {
     "async": "0.9.0",
-    "hiredis": "0.2.0",
+    "hiredis": "^0.4.1",
     "node-uuid": "~1.4.1",
-    "redis": "0.12.1"
+    "redis": "^2.4.2"
   },
   "devDependencies": {
     "lab": "^5.2.1",
