@@ -1,5 +1,5 @@
 {
-  "name": "rediscomplete",
+  "name": "@resourcefulhumans/rediscomplete",
   "version": "1.9.0",
   "description": "A fully CRUD redis autocomplete engine inspired from the antirez and patshaughnessy blogs.",
   "main": "index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/petreboy14/rediscomplete.git"
+    "url": "git+https://github.com/ResourcefulHumans/rediscomplete.git"
   },
   "keywords": [
     "redis",
@@ -19,10 +19,7 @@
   ],
   "author": "Peter Henning",
   "license": "BSD-2-Clause",
-  "bugs": {
-    "url": "https://github.com/petreboy14/rediscomplete/issues"
-  },
-  "homepage": "https://github.com/petreboy14/rediscomplete",
+  "homepage": "https://github.com/ResourcefulHumans/rediscomplete",
   "dependencies": {
     "async": "0.9.0",
     "hiredis": "^0.4.1",
@@ -33,5 +30,9 @@
     "lab": "^5.2.1",
     "precommit-hook": "~0.3.9",
     "should": "~2.1.1"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "test"
   }
 }
